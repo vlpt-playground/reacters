@@ -9,8 +9,12 @@ import {
   ForeignKey,
   BelongsTo
 } from 'sequelize-typescript';
+import pick from 'lodash/pick';
 import User from './User';
 
+function shorten(text: string) {
+  return text.length > 150 ? `${text.slice(0, 150)}...` : text;
+}
 @Table({
   tableName: 'posts',
   indexes: [
@@ -38,6 +42,27 @@ class Post extends Model<Post> {
 
   @UpdatedAt
   updated_at!: Date;
+
+  async resolveUser() {
+    if (this.user) return;
+    const user = await User.findById(this.user_id);
+    if (user) {
+      this.user = user;
+    }
+  }
+
+  serialize(ellipsis?: boolean) {
+    return {
+      ...pick(this, ['id', 'title', 'body', 'created_at', 'updated_at']),
+      body: ellipsis ? shorten(this.body) : this.body,
+      user: this.user
+        ? {
+            id: this.user.id,
+            username: this.user.username
+          }
+        : null
+    };
+  }
 }
 
 export default Post;

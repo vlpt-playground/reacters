@@ -8,3 +8,19 @@ export const AuthSchema = Joi.object().keys({
     .required(),
   password: Joi.string().required()
 });
+
+export const PostSchema = Joi.object().keys({
+  title: Joi.string()
+    .min(1)
+    .required(),
+  body: Joi.string()
+    .min(1)
+    .required()
+});
+
+export const CommentSchema = Joi.object().keys({
+  text: Joi.string()
+    .required()
+    .min(1)
+    .max(500)
+});

@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import { AuthSchema } from '../../lib/schemas';
-import { hash, compareHash } from '../../lib/common';
+import { hash, compareHash, decodeToken } from '../../lib/common';
 import User from '../../models/User';
 
 const auth = new Router();
@@ -102,6 +102,40 @@ auth.get('/check', async ctx => {
     return;
   }
   ctx.body = user;
+});
+
+/**
+ * POST /auth/refresh
+ * { refresh_token }
+ */
+auth.post('/refresh', async ctx => {
+  const { refresh_token } = ctx.request.body as { refresh_token: string };
+  try {
+    type RefreshTokenData = {
+      user_id: number;
+      iat: number;
+      sub: string;
+      jti: string;
+    };
+    const decoded = await decodeToken<RefreshTokenData>(refresh_token);
+    if (decoded.sub !== 'refresh_token') {
+      throw new Error();
+    }
+    // TODO: check blacklist using jti
+    const user = await User.findById(decoded.user_id);
+    if (!user) {
+      throw new Error();
+    }
+    const accessToken = await user.generateAccessToken();
+    ctx.body = {
+      access_token: accessToken,
+      refresh_token,
+      token_type: 'Bearer',
+      expires_in: 60 * 60 * 24 * 7
+    };
+  } catch (e) {
+    ctx.status = 401;
+  }
 });
 
 export default auth;

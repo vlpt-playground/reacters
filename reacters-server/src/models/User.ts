@@ -47,4 +47,9 @@ class User extends Model<User> {
   }
 }
 
+export type UserTokenData = {
+  id: number;
+  username: string;
+};
+
 export default User;

@@ -4,7 +4,7 @@ import bodyParser from 'koa-bodyparser';
 import router from './router';
 import database from './database';
 import User from './models/User';
-import { authMiddleware } from './lib/middlewares/authMiddleware';
+import { injectAuth } from './lib/middlewares/authMiddlewares';
 
 class Server {
   app: Koa;
@@ -15,7 +15,7 @@ class Server {
   setup() {
     // apply middlewares
     this.app.use(bodyParser());
-    this.app.use(authMiddleware);
+    this.app.use(injectAuth);
     // apply routes
     this.app.use(router.routes());
     this.app.use(router.allowedMethods());
