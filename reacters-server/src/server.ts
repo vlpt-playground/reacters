@@ -5,6 +5,7 @@ import router from './router';
 import database from './database';
 import User from './models/User';
 import { injectAuth } from './lib/middlewares/authMiddlewares';
+import cors from './lib/middlewares/cors';
 
 class Server {
   app: Koa;
@@ -14,6 +15,7 @@ class Server {
   }
   setup() {
     // apply middlewares
+    this.app.use(cors);
     this.app.use(bodyParser());
     this.app.use(injectAuth);
     // apply routes
