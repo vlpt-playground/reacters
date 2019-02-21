@@ -10,7 +10,18 @@
     letter-spacing: 2px;
   }
   .right-area {
-    a {
+    .logged-in {
+      display: flex;
+      align-items: center;
+      .username {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $oc-gray-9;
+        margin-right: 0.5rem;
+      }
+    }
+    a,
+    button {
       display: flex;
       align-items: center;
       cursor: pointer;

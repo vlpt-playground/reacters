@@ -128,8 +128,8 @@ auth.post('/refresh', async ctx => {
     }
     const accessToken = await user.generateAccessToken();
     ctx.body = {
-      access_token: accessToken,
       refresh_token,
+      access_token: accessToken,
       token_type: 'Bearer',
       expires_in: 60 * 60 * 24 * 7
     };

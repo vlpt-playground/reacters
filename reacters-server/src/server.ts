@@ -3,7 +3,6 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import router from './router';
 import database from './database';
-import User from './models/User';
 import { injectAuth } from './lib/middlewares/authMiddlewares';
 import cors from './lib/middlewares/cors';
 

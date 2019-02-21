@@ -10,10 +10,14 @@ import {
   BelongsTo
 } from 'sequelize-typescript';
 import pick from 'lodash/pick';
+import sanitizeHtml from 'sanitize-html';
 import User from './User';
 
 function shorten(text: string) {
-  return text.length > 150 ? `${text.slice(0, 150)}...` : text;
+  const sanitized = sanitizeHtml(text.replace(/<\/p>/g, ' '), {
+    allowedTags: []
+  });
+  return sanitized.length > 150 ? `${sanitized.slice(0, 150)}...` : sanitized;
 }
 @Table({
   tableName: 'posts',

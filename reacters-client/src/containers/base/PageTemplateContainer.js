@@ -1,9 +1,9 @@
 import React from 'react';
 import PageTemplate from '../../components/base/PageTemplate';
-import Header from '../../components/base/Header';
+import HeaderContainer from './HeaderContainer';
 
 const PageTemplateContainer = ({ children }) => {
-  return <PageTemplate header={<Header />}>{children}</PageTemplate>;
+  return <PageTemplate header={<HeaderContainer />}>{children}</PageTemplate>;
 };
 
 export default PageTemplateContainer;

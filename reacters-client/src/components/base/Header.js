@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Header.scss';
 import Responsive from './Responsive';
 
-const Header = () => {
+const Header = ({ user, onLogout }) => {
   return (
     <Responsive>
       <div className="Header">
@@ -11,7 +11,14 @@ const Header = () => {
           REACTERS
         </Link>
         <div className="right-area">
-          <Link to="/login">로그인</Link>
+          {user ? (
+            <div className="logged-in">
+              <div className="username">{user.username}</div>
+              <button onClick={onLogout}>로그아웃</button>
+            </div>
+          ) : (
+            <Link to="/login">로그인</Link>
+          )}
         </div>
       </div>
     </Responsive>

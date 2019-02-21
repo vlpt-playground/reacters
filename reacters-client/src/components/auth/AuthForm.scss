@@ -36,6 +36,12 @@
         background: $oc-gray-7;
       }
     }
+    .error {
+      font-size: 0.875rem;
+      color: $oc-red-5;
+      text-align: center;
+      margin-top: 1rem;
+    }
   }
   .footer {
     text-align: right;

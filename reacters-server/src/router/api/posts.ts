@@ -1,6 +1,5 @@
 import Router from 'koa-router';
 import sanitizeHtml from 'sanitize-html';
-import Joi from 'joi';
 import { needAuth } from '../../lib/middlewares/authMiddlewares';
 import { PostSchema, CommentSchema } from '../../lib/schemas';
 import Post from '../../models/Post';
@@ -9,6 +8,7 @@ import { Middleware } from 'koa';
 import Comment from '../../models/Comment';
 
 const sanitizeOption = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2']),
   allowedStyles: {
     '*': {
       color: [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
@@ -18,7 +18,12 @@ const sanitizeOption = {
     p: {
       'font-size': [/^\d+rem$/]
     }
-  }
+  },
+  allowedAttributes: {
+    a: ['href', 'name', 'target'],
+    img: ['src']
+  },
+  allowedSchemes: ['data', 'http']
 };
 
 const posts = new Router();
@@ -65,8 +70,8 @@ posts.get('/', async ctx => {
   const parsedPage = (isNaN(page) ? 1 : parseInt(page, 10)) || 1;
   try {
     const posts = await Post.findAndCountAll({
-      offset: (parsedPage - 1) * 20,
-      limit: 20,
+      offset: (parsedPage - 1) * 10,
+      limit: 10,
       include: [User],
       order: [['created_at', 'DESC']]
     });
