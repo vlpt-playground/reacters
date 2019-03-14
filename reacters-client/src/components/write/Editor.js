@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import './Editor.scss';
 import EditorHead from './EditorHead';
+
+let Quill = null;
+if (process.env.APP_ENV === 'browser') {
+  Quill = require('quill');
+}
 
 class Editor extends Component {
   editor = React.createRef();
