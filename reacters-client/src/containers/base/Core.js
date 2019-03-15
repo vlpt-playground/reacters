@@ -4,7 +4,7 @@ import { check, tempSetUser } from '../../modules/user';
 import { setToken } from '../../lib/api/client';
 
 class Core extends Component {
-  initialize = () => {
+  initialize = async () => {
     // 로그인 설정 불러오기
     const user = localStorage.getItem('user');
     const authorization = localStorage.getItem('authorization');
@@ -13,7 +13,12 @@ class Core extends Component {
     if (!authorization) return;
     const parsedAuth = JSON.parse(authorization);
     setToken(`Bearer ${parsedAuth.access_token}`);
-    this.props.check();
+    try {
+      await this.props.check();
+    } catch (e) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('authorization');
+    }
   };
   componentDidMount() {
     this.initialize();
