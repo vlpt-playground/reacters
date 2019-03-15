@@ -5,6 +5,8 @@ import router from './router';
 import database from './database';
 import { injectAuth } from './lib/middlewares/authMiddlewares';
 import cors from './lib/middlewares/cors';
+import historyFallback from './lib/middlewares/historyFallback';
+import serve from 'koa-static';
 
 class Server {
   app: Koa;
@@ -20,6 +22,8 @@ class Server {
     // apply routes
     this.app.use(router.routes());
     this.app.use(router.allowedMethods());
+    this.app.use(serve('./public'));
+    this.app.use(historyFallback);
     // connect db
     database.authenticate();
   }
