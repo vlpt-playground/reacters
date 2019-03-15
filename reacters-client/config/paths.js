@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
@@ -47,7 +49,7 @@ const moduleFileExtensions = [
   'tsx',
   'json',
   'web.jsx',
-  'jsx'
+  'jsx',
 ];
 
 // Resolve file paths in the same order as webpack
@@ -80,8 +82,8 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  ssrIndexJs: resolveModule(resolveApp, 'src/server'),
-  ssrBuild: resolveApp('dist')
 };
+
+
 
 module.exports.moduleFileExtensions = moduleFileExtensions;

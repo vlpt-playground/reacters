@@ -7,12 +7,6 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import WritePage from './pages/WritePage';
 
-// const PostListPage = loadable(() => import('./pages/PostListPage'));
-// const PostPage = loadable(() => import('./pages/PostPage'));
-// const LoginPage = loadable(() => import('./pages/LoginPage'));
-// const RegisterPage = loadable(() => import('./pages/RegisterPage'));
-// const WritePage = loadable(() => import('./pages/WritePage'));
-
 const App = () => {
   return (
     <>
